@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import sharp from 'sharp';
 import fetch from 'node-fetch';
+import express from 'express';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -343,7 +344,7 @@ bot.on('message', async (msg) => {
           msg.text.toLowerCase().includes('preview') ||
           msg.text.toLowerCase().includes('demo')) {
         await bot.sendPhoto(chatId, GROUP_PREVIEW_IMAGE, {
-          caption: "Ei nen bhai, premium content er ekta preview. Full access er jonno payment kore join koren 😊"
+          caption: "Ei nen bhai, premium content er ekta preview. Full access er jonno payment koren 😊"
         });
         return;
       }
@@ -395,6 +396,20 @@ bot.on('callback_query', async (query) => {
   }
 
   await bot.answerCallbackQuery(query.id);
+});
+
+// Create Express app for health check
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.send('Bot is running!');
+});
+
+// Start Express server
+app.listen(PORT, () => {
+  console.log(`Health check server listening on port ${PORT}`);
 });
 
 console.log('Bot started successfully!');
