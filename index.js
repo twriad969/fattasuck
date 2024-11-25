@@ -17,9 +17,9 @@ const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 const genAI = new GoogleGenerativeAI(GEMINI_KEY);
 
 const MODEL_NAME = "gemini-1.5-pro";
-const MODEL_NAME_VISION = "gemini-1.5-flash-8b"; // Using same model for vision as web version
+const MODEL_NAME_VISION = "gemini-1.5-pro"; // Using same model for vision as web version
 const ADMIN_ID = 6135009699;
-const GROUP_PREVIEW_IMAGE = "https://i.ibb.co.com/Cv8kGTx/Screenshot-60-removebg-preview.png";
+const GROUP_PREVIEW_IMAGE = "https://i.ibb.co.com/grMFYG6/4245e66b-d27f-40f9-80d1-7bbaf1108a8d.jpg";
 const GROUP_LINKS = {
   group1: "https://t.me/+SpL6wJ5_4MVhZDll",
   group2: "https://t.me/+HtfDVNyNaPcxNWVl"
