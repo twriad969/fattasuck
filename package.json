@@ -1,0 +1,17 @@
+{
+  "name": "membership-assistant-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for membership assistant",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "node-telegram-bot-api": "^0.64.0",
+    "@google/generative-ai": "^0.2.1",
+    "dotenv": "^16.3.1",
+    "sharp": "^0.33.2",
+    "node-fetch": "^3.3.2"
+  }
+}
