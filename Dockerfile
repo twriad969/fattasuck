@@ -1,11 +1,5 @@
-# Use Node.js 18 as the base image
-FROM node:18-slim
-
-# Install system dependencies for sharp
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python3 \
-    && rm -rf /var/lib/apt/lists/*
+# Use Node.js LTS version
+FROM node:20-slim
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -16,11 +10,14 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Copy source code
+# Bundle app source
 COPY . .
 
-# Set NODE_ENV to production
+# Your app binds to port 3000 so you'll use the EXPOSE instruction to have it mapped by the docker daemon
+EXPOSE 3000
+
+# Define environment variable
 ENV NODE_ENV=production
 
 # Start the bot
-CMD ["node", "index.js"]
+CMD [ "npm", "start" ]
