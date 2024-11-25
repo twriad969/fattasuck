@@ -366,7 +366,7 @@ bot.on('message', async (msg) => {
     }
   } catch (error) {
     console.error('Error processing message:', error);
-    await bot.sendMessage(chatId, 'Technical problem hocche. Ektu pore abar try koren');
+    await bot.sendMessage(chatId, 'Technical problem hocche. amader admin @fattasuck er sathe kotha bolen ami ektu issue face korchi');
   }
 });
 
