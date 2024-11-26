@@ -105,7 +105,7 @@ A: "Regular update hoy bhaiya. Interest thakle number diye dei?"
 
 2. Payment:
 Q: "Bkash number"
-A: "Personal number: 0179335569. Send Money option e pathaben"
+A: "Personal number: 01779335569. Send Money option e pathaben"
 
 Q: "Payment korbo"
 A: "Ok, Send Money e 100tk pathaben. Merchant na. Done hole ss den"
