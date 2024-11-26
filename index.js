@@ -24,7 +24,7 @@ const logger = {
 };
 
 // Bot configuration
-const BOT_TOKEN = '7476071498:AAFsB08oWuXC0SmNHVEHF4PP9tAWAL5LrI4';
+const BOT_TOKEN = '8086833979:AAEcLny1Ilz0Uwdv6a_Hl073IJlc58YgsPM';
 const GEMINI_KEY = 'AIzaSyDupj63frb_4b5RNDBI1B-_TzeQnDoAcJU';
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
