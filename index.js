@@ -710,10 +710,9 @@ async function downloadImage(fileId, chatId) {
     const filePath = file.file_path;
     const response = await fetch(`https://api.telegram.org/file/bot${BOT_TOKEN}/${filePath}`);
     const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    
+
     // Process image with sharp to ensure JPEG format and reasonable size
-    const processedBuffer = await sharp(buffer)
+    const processedBuffer = await sharp(Buffer.from(arrayBuffer))
       .jpeg({ quality: 80 })
       .resize(800, 800, { fit: 'inside' }) // Resize if too large
       .toBuffer();
@@ -732,7 +731,11 @@ bot.on('callback_query', async (query) => {
   
   // Only allow admin to use these buttons
   if (adminId !== ADMIN_ID) {
-    await bot.answerCallbackQuery(query.id, { text: 'You are not authorized!' });
+    try {
+      await bot.answerCallbackQuery(query.id, { text: 'You are not authorized!' });
+    } catch (error) {
+      logger.error('Error answering callback:', error.message);
+    }
     return;
   }
 
@@ -746,11 +749,13 @@ bot.on('callback_query', async (query) => {
       session = await sessionManager.createSession(userChatId);
     }
 
+    // Process the action first
     if (action === 'approve') {
-      // Notify user of approval
-      await bot.sendMessage(userChatId, "Admin payment verify koreche. Enjoy premium content! 🎉");
+      // Set verification status
+      session.verified = true;
+      await sessionManager.saveSessions();
       
-      // Update admin message
+      // Update admin message first
       await bot.editMessageText(
         `✅ Payment Approved!\n\nUser: @${query.message.text.split('@')[1]?.split('\n')[0]}`,
         {
@@ -759,15 +764,16 @@ bot.on('callback_query', async (query) => {
           reply_markup: { inline_keyboard: [] }
         }
       );
+
+      // Then notify user
+      await bot.sendMessage(userChatId, "Admin payment verify koreche. Enjoy premium content! 🎉");
+      
     } else if (action === 'reject') {
       // Reset verification status
       session.verified = false;
       await sessionManager.saveSessions();
       
-      // Notify user
-      await bot.sendMessage(userChatId, "Sorry! Payment verify hoy nai. Please contact admin @fattasuck");
-      
-      // Update admin message
+      // Update admin message first
       await bot.editMessageText(
         `❌ Payment Rejected!\n\nUser: @${query.message.text.split('@')[1]?.split('\n')[0]}`,
         {
@@ -776,13 +782,40 @@ bot.on('callback_query', async (query) => {
           reply_markup: { inline_keyboard: [] }
         }
       );
+      
+      // Then notify user
+      await bot.sendMessage(userChatId, "Sorry! Payment verify hoy nai. Please contact admin @fattasuck");
     }
 
-    await bot.answerCallbackQuery(query.id);
+    // Try to answer callback query, but don't fail if it's too old
+    try {
+      await bot.answerCallbackQuery(query.id);
+    } catch (cbError) {
+      if (!cbError.message.includes('query is too old')) {
+        throw cbError;
+      }
+      // Ignore old query errors
+      logger.info('Ignored old callback query');
+    }
+
   } catch (error) {
-    logger.error('Error in callback query handler:', error);
-    await bot.answerCallbackQuery(query.id, { text: 'Error processing request' });
-    await bot.sendMessage(ADMIN_ID, `Error processing admin action: ${error.message}`);
+    logger.error('Error in callback query handler:', error.message);
+    
+    // Try to answer callback, but don't fail if it's too old
+    try {
+      await bot.answerCallbackQuery(query.id, { text: 'Error processing request' });
+    } catch (cbError) {
+      if (!cbError.message.includes('query is too old')) {
+        logger.error('Error answering callback:', cbError.message);
+      }
+    }
+
+    // Always notify admin of errors
+    try {
+      await bot.sendMessage(ADMIN_ID, `Error processing admin action: ${error.message}`);
+    } catch (msgError) {
+      logger.error('Error sending error message to admin:', msgError.message);
+    }
   }
 });
 
