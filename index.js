@@ -736,43 +736,54 @@ bot.on('callback_query', async (query) => {
     return;
   }
 
-  const action = query.data.split('_')[0];
-  const userChatId = query.data.split('_')[1];
-  const session = await sessionManager.getSession(userChatId);
+  try {
+    const action = query.data.split('_')[0];
+    const userChatId = query.data.split('_')[1];
+    
+    // Get or create session
+    let session = await sessionManager.getSession(userChatId);
+    if (!session) {
+      session = await sessionManager.createSession(userChatId);
+    }
 
-  if (action === 'approve') {
-    // Notify user of approval
-    await bot.sendMessage(userChatId, "Admin payment verify koreche. Enjoy premium content! 🎉");
-    
-    // Update admin message
-    await bot.editMessageText(
-      `✅ Payment Approved!\n\nUser: @${query.message.text.split('@')[1]?.split('\n')[0]}`,
-      {
-        chat_id: ADMIN_ID,
-        message_id: query.message.message_id,
-        reply_markup: { inline_keyboard: [] }
-      }
-    );
-  } else if (action === 'reject') {
-    // Reset verification status
-    session.verified = false;
-    await sessionManager.saveSessions();
-    
-    // Notify user
-    await bot.sendMessage(userChatId, "Sorry! Payment verify hoy nai. Please contact admin @fattasuck");
-    
-    // Update admin message
-    await bot.editMessageText(
-      `❌ Payment Rejected!\n\nUser: @${query.message.text.split('@')[1]?.split('\n')[0]}`,
-      {
-        chat_id: ADMIN_ID,
-        message_id: query.message.message_id,
-        reply_markup: { inline_keyboard: [] }
-      }
-    );
+    if (action === 'approve') {
+      // Notify user of approval
+      await bot.sendMessage(userChatId, "Admin payment verify koreche. Enjoy premium content! 🎉");
+      
+      // Update admin message
+      await bot.editMessageText(
+        `✅ Payment Approved!\n\nUser: @${query.message.text.split('@')[1]?.split('\n')[0]}`,
+        {
+          chat_id: ADMIN_ID,
+          message_id: query.message.message_id,
+          reply_markup: { inline_keyboard: [] }
+        }
+      );
+    } else if (action === 'reject') {
+      // Reset verification status
+      session.verified = false;
+      await sessionManager.saveSessions();
+      
+      // Notify user
+      await bot.sendMessage(userChatId, "Sorry! Payment verify hoy nai. Please contact admin @fattasuck");
+      
+      // Update admin message
+      await bot.editMessageText(
+        `❌ Payment Rejected!\n\nUser: @${query.message.text.split('@')[1]?.split('\n')[0]}`,
+        {
+          chat_id: ADMIN_ID,
+          message_id: query.message.message_id,
+          reply_markup: { inline_keyboard: [] }
+        }
+      );
+    }
+
+    await bot.answerCallbackQuery(query.id);
+  } catch (error) {
+    logger.error('Error in callback query handler:', error);
+    await bot.answerCallbackQuery(query.id, { text: 'Error processing request' });
+    await bot.sendMessage(ADMIN_ID, `Error processing admin action: ${error.message}`);
   }
-
-  await bot.answerCallbackQuery(query.id);
 });
 
 // Create Express app for health check
