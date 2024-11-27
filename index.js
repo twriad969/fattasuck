@@ -24,7 +24,7 @@ const logger = {
 };
 
 // Bot configuration
-const BOT_TOKEN = '7476071498:AAFsB08oWuXC0SmNHVEHF4PP9tAWAL5LrI4';
+const BOT_TOKEN = '8086833979:AAEcLny1Ilz0Uwdv6a_Hl073IJlc58YgsPM';
 const GEMINI_KEY = 'AIzaSyDupj63frb_4b5RNDBI1B-_TzeQnDoAcJU';
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
@@ -58,7 +58,7 @@ Common Scenarios & Responses
 1. Greetings:
 
 User: "Hi"
-Bot: "Membership niben? Payment details dite parbo."
+Bot: "Membership niben?."
 User: "Hello" / "Kemon achen?"
 Bot: "Membership related help lagbe? Bolo."
 2. Content Questions:
@@ -282,9 +282,16 @@ async function processQueue() {
       return;
     }
 
+    // Show typing action before processing
+    await bot.sendChatAction(chatId, 'typing');
+
     const result = await session.chat.sendMessage(userMessage);
     const response = await result.response;
     const botResponse = response.text();
+
+    // Show typing again before sending response
+    await bot.sendChatAction(chatId, 'typing');
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     await bot.sendMessage(chatId, botResponse);
     
@@ -302,13 +309,12 @@ async function processQueue() {
       logger.error('Error sending error message:', sendError);
     }
   } finally {
-    messageQueue.shift(); // Remove processed message
+    messageQueue.shift();
     isProcessing = false;
     if (session) {
       session.isProcessing = false;
     }
     
-    // Process next message if queue not empty
     if (messageQueue.length > 0) {
       setTimeout(processQueue, 100);
     }
@@ -680,7 +686,7 @@ bot.onText(/\/start/, async (msg) => {
   }
 });
 
-// Modified payment screenshot handler
+// Modified photo handler
 bot.on('photo', async (msg) => {
   const chatId = msg.chat.id;
   let session = await sessionManager.getSession(chatId);
@@ -691,14 +697,19 @@ bot.on('photo', async (msg) => {
   }
 
   try {
-    session.isProcessing = true; // Set processing state
+    session.isProcessing = true;
     await sessionManager.saveSessions();
 
+    // Show typing action
+    await bot.sendChatAction(chatId, 'typing');
     await bot.sendMessage(chatId, "Screenshot check kortesi, ektu wait koren... 🔄");
 
     const photo = msg.photo[msg.photo.length - 1];
     const file = await bot.getFile(photo.file_id);
     const filePath = file.file_path;
+
+    // Show upload action while processing image
+    await bot.sendChatAction(chatId, 'upload_photo');
 
     // Download image
     const imageResponse = await fetch(`https://api.telegram.org/file/bot${BOT_TOKEN}/${filePath}`);
@@ -708,6 +719,9 @@ bot.on('photo', async (msg) => {
     const processedBuffer = await sharp(Buffer.from(arrayBuffer))
       .resize(800, null, { fit: 'inside' })
       .toBuffer();
+
+    // Show typing while analyzing
+    await bot.sendChatAction(chatId, 'typing');
 
     // Convert to base64
     const base64Image = Buffer.from(processedBuffer).toString('base64');
@@ -821,7 +835,7 @@ Examples:
     logger.error('Error processing screenshot:', error);
     await bot.sendMessage(chatId, "Technical problem hocche. Screenshot abar try koren, or admin @fattasuck er sathe contact korun.");
   } finally {
-    session.isProcessing = false; // Reset processing state
+    session.isProcessing = false;
     await sessionManager.saveSessions();
   }
 });
@@ -971,7 +985,8 @@ bot.on('callback_query', async (query) => {
       
       // Update admin message first
       await bot.editMessageText(
-        `✅ Payment Approved!\n\nUser: @${query.message.text.split('@')[1]?.split('\n')[0]}`,
+        `✅ Payment Approved!\n\n` +
+        `User: @${query.message.text.split('@')[1]?.split('\n')[0]}`,
         {
           chat_id: ADMIN_ID,
           message_id: query.message.message_id,
@@ -989,7 +1004,8 @@ bot.on('callback_query', async (query) => {
       
       // Update admin message first
       await bot.editMessageText(
-        `❌ Payment Rejected!\n\nUser: @${query.message.text.split('@')[1]?.split('\n')[0]}`,
+        `❌ Payment Rejected!\n\n` +
+        `User: @${query.message.text.split('@')[1]?.split('\n')[0]}`,
         {
           chat_id: ADMIN_ID,
           message_id: query.message.message_id,
