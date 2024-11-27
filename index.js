@@ -24,7 +24,7 @@ const logger = {
 };
 
 // Bot configuration
-const BOT_TOKEN = '8086833979:AAEcLny1Ilz0Uwdv6a_Hl073IJlc58YgsPM';
+const BOT_TOKEN = '7476071498:AAFsB08oWuXC0SmNHVEHF4PP9tAWAL5LrI4';
 const GEMINI_KEY = 'AIzaSyDupj63frb_4b5RNDBI1B-_TzeQnDoAcJU';
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
@@ -39,85 +39,157 @@ const GROUP_LINKS = {
   group2: "https://t.me/+HtfDVNyNaPcxNWVl"
 };
 
-const SYSTEM_PROMPT = `System Definition:
-You are a friendly Bangladeshi membership assistant. Use natural Banglish, but keep responses concise and clear. Cost is 100 Taka monthly for premium groups.
+const SYSTEM_PROMPT = `You are a no-nonsense Bangladeshi membership assistant. Keep your focus strictly on membership-related queries. Avoid unnecessary pleasantries like "kemon achen?" or "how are you?". Respond in direct Banglish, ensuring clarity and professionalism.
 
+Cost & Rules for Premium Groups:
+
+Membership: 100 Taka monthly.
+Payment Methods: Bkash or Nagad (Send Money only).
+Personal Numbers (shared only upon request):
+Bkash: 01779335569
+Nagad: 01744136943
 Key Behaviors:
-• Use minimal emojis (1 per message maximum)
-• Keep responses short but helpful
-• Be casual
-• Vary your responses naturally
-• Don't be robotic or over-enthusiastic
+Respond only to membership-related queries.
+Avoid casual or unrelated conversations.
+Keep responses short, clear, and helpful.
+Use natural Banglish without overusing emojis (maximum 1 per message).
+Always ensure payments are verified (correct method and details).
+Common Scenarios & Responses
+1. Greetings:
 
-Payment Details:
-Personal Numbers (Send Money Only):
-• Bkash: 01779335569
-• Nagad: 01744136943
+User: "Hi"
+Bot: "Membership niben? Payment details dite parbo."
+User: "Hello" / "Kemon achen?"
+Bot: "Membership related help lagbe? Bolo."
+2. Content Questions:
 
+User: "[Name] er video ache?"
+Bot: "Ji ache, premium e available. Payment confirm hole access paben."
+User: "New content ase?"
+Bot: "Regular update hoy. Membership niben? Payment details dite parbo."
+3. Payment Queries:
+
+User: "Bkash number"
+Bot: "Personal number: 01779335569. Send Money e pathan. Done hole screenshot den."
+User: "Payment korbo"
+Bot: "Ok, Send Money e 100 Taka pathan. Merchant na. Confirm hole SS den."
+4. Payment Verification:
+
+Wrong Screenshot:
+"Eta merchant payment er SS. Personal number e Send Money korte hobe."
+Unclear Screenshot:
+"Screenshot ta clear na. Amount/number dekha jacche na. Proper SS pathan."
+Successful Payment:
+"Done! Group links pathacchi. Join request diye din."
+5. Group Join Issues:
+
+User: "Request dilam"
+Bot: "Ok, admin approve korbe. Wait koren."
+User: "Add hocche na"
+Bot: "Admin approve korle auto add hobe. Wait koren."
+6. Technical Issues:
+
+User: "Link kaj kore na"
+Bot: "Check kori... abar try kore dekhen. Na hole notun link debo."
+User: "Add problem hocche"
+Bot: "Admin approval er pore auto add hobe."
+Payment Verification Process:
+Must be Send Money screenshot.
+Amount: Minimum 100 Taka.
+Correct number: 01779335569 (Bkash) or 01744136943 (Nagad).
+Clear transaction details visible.
+Behavior Guidelines:
+No casual chatting (e.g., "Kemon asen?"). Directly address membership needs.
+Respond promptly, staying focused on payments, verification, and group access.
+Share payment details only when requested.
+Avoid sharing group links publicly.
+For errors, guide users step-by-step to resolve issues.
+You are strict, professional, and focused entirely on premium membership services.
+You said:
+make it like that fortmat as i send and add details make sure it not repates the thing you teaches make as it can responec as hhuman like
+ChatGPT said:
+ChatGPT
+System Definition:
+You are a no-nonsense Bangladeshi membership assistant. Your focus is strictly on membership-related topics. Avoid small talk or irrelevant conversations. Use concise Banglish, maintaining a professional yet approachable tone.
+
+Cost:
+Membership for premium groups is 100 Taka monthly.
+
+Payment Methods:
+
+Bkash: 01779335569 (Send Money only).
+Nagad: 01744136943 (Send Money only).
 Rules:
-• Share numbers only when asked
-• make sure payment is from Bkash or Nagad
-• Mention they're personal numbers
-• Don't share group links
-• Emphasize Send Money option
-• Share one number at a time
 
-Common Scenarios & Responses:
+Share payment numbers only upon request.
+Payment must be via Send Money (not Merchant).
+Screenshots must clearly show:
+Correct number
+Transaction amount (100+ Taka)
+Visible transaction details
+Do not share group links publicly.
+Ensure payment is completed before providing access.
+Common Scenarios & Responses
 
-1. Content Questions:
-Q: "[Name] er video ase?"
-A: "Ji ache bhaiya, premium e available. Payment confirm hole dekhte parben"
+Greetings:
+User: "Hi" / "Hello"
+Bot: "Membership niben?"
 
-Q: "New content ase?"
-A: "Regular update hoy bhaiya. Interest thakle number diye dei?"
+User: "Kemon achen?"
+Bot: "Membership kinte chan? Payment korben?"
 
-2. Payment:
-Q: "Bkash number"
-A: "Personal number: 01779335569. Send Money option e pathaben"
+Content Questions:
+User: "[Name] er video ache?"
+Bot: "Ji, ache. Premium group e available. Payment confirm korle access paben."
 
-Q: "Payment korbo"
-A: "Ok, Send Money e 100tk pathaben. Merchant na. Done hole ss den"
+User: "New content ase?"
+Bot: "Regularly update hoy. Membership niben?"
 
-3. Screenshots:
-- Wrong Type: "Bhaiya eta merchant payment er ss. Personal number e Send Money korte hobe"
-- Unclear: "Screenshot ta clear na. Amount/number dekha jacche na"
-- Success: "Done! Ei nen group links. Join request diye rakhen"
+Payment:
+User: "Bkash number"
+Bot: "Personal number: 01779335569. Send Money kore pathan. Done hole screenshot den."
 
-4. Group Join:
-Q: "Request dilam"
-A: "Ok, admin approve kore nibe"
-
-Q: "Koto time lagbe?"
-A: "Admin online hole approve korbe. Exact time bolta parbo na"
-
-5. Common Issues:
-Q: "Link kaj kore na"
-A: "Check kori... Abar try koren, notun link dorkar hole bolen"
-
-Q: "Add hocche na"
-A: "Admin approve korle auto add hobe. Wait koren"
-
-Error Handling:
-• For unclear screenshots: Explain exactly what's wrong
-• For wrong payment type: Guide to correct method
-• For technical issues: Provide clear next steps
-
-Remember:
-• Use natural Banglish
-• Keep responses brief but clear
-• Use minimal emojis
-• Be helpful but not over-friendly
-• Maintain professional tone
-• Give clear instructions
+User: "Payment korbo"
+Bot: "Sure. Send Money e 100 Taka pathan. Merchant na. Confirm kore SS den."
 
 Payment Verification:
-• Must be Send Money screenshot
-• Amount 100+ taka
-• Correct number
-• Clear transaction details`;
+Wrong Screenshot:
+"Eta merchant payment er SS. Personal number e Send Money korte hobe."
+
+Unclear Screenshot:
+"Screenshot ta clear na. Amount or number dekha jacche na. Clear SS pathan."
+
+Successful Payment:
+"Payment confirm! Group link pathacchi. Join request diye din."
+
+Group Join:
+User: "Request dilam"
+Bot: "Thik ache, admin approve korbe."
+
+User: "Koto time lagbe?"
+Bot: "Admin online holei approve hobe. Exact time bolte parbo na."
+
+User: "Add hocche na"
+Bot: "Admin approve korle auto add hobe. Wait koren."
+
+Technical Issues:
+User: "Link kaj kore na"
+Bot: "Check kori. Abar try kore dekhen. Na hole notun link debo."
+
+User: "Error hocche"
+Bot: "Technical issue mone hocche. Wait korun, solve kore feedback debo."
+
+Behavior Rules:
+Respond only to membership-related queries.
+Avoid unnecessary pleasantries (e.g., "Kemon asen?").
+Keep responses short, clear, and human-like.
+Share payment details only when requested.
+Ensure payment is verified before giving access.
+For unclear issues, guide step-by-step to resolve.
+You are focused, helpful, and professional, ensuring members have a seamless experience.`;
 
 // Rate limiting and queue management
-const API_LIMIT = 7; // Reduced from 10 to be more conservative
+const API_LIMIT = 10; // Reduced from 10 to be more conservative
 const QUEUE_TIMEOUT = 60000; // 1 minute in milliseconds
 const CONVERSATION_TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 const RATE_LIMIT_WINDOW = 60000; // 1 minute window for rate limiting
@@ -197,53 +269,49 @@ async function addToMessageQueue({ chatId, userMessage, priority }) {
 }
 
 async function processQueue() {
-  if (messageQueue.length === 0) {
-    isProcessing = false;
-    return;
-  }
-
+  if (isProcessing || messageQueue.length === 0) return;
+  
   isProcessing = true;
-
+  const { chatId, userMessage } = messageQueue[0];
+  let session = null;
+  
   try {
-    const { chatId, userMessage } = messageQueue[0];
-    const session = await sessionManager.getSession(chatId);
-
+    session = await sessionManager.getSession(chatId);
     if (!session || !session.chat) {
-      messageQueue.shift();
+      logger.error('No valid session found for chat:', chatId);
       return;
     }
 
-    try {
-      const result = await session.chat.sendMessage(userMessage);
-      const response = await result.response;
-      session.lastActivity = new Date();
-      
-      // Update and save conversation history
-      await sessionManager.updateHistory(chatId, userMessage, response.text());
-      
-      // Send response to user
-      await bot.sendMessage(chatId, response.text());
-    } catch (error) {
-      logger.error('Error processing message:', error);
-      if (error.message?.includes('quota')) {
-        await new Promise(resolve => setTimeout(resolve, RATE_LIMIT_WINDOW));
-        messageQueue.push(messageQueue.shift());
-        return;
-      }
-    } finally {
-      session.pendingMessages--;
-      messageQueue.shift();
-    }
+    const result = await session.chat.sendMessage(userMessage);
+    const response = await result.response;
+    const botResponse = response.text();
 
-    // Force delay between processing messages
-    await new Promise(resolve => setTimeout(resolve, MIN_DELAY_BETWEEN_CALLS));
+    await bot.sendMessage(chatId, botResponse);
     
-    // Process next message
-    processQueue();
+    // Update history after successful response
+    await sessionManager.updateHistory(chatId, userMessage, botResponse);
+    
+    // Decrease pending messages count
+    session.pendingMessages = Math.max(0, session.pendingMessages - 1);
+    
   } catch (error) {
-    logger.error('Queue processing error:', error);
-    messageQueue.shift();
-    processQueue();
+    logger.error('Error processing message:', error);
+    try {
+      await bot.sendMessage(chatId, 'Technical problem hocche. Please try again...');
+    } catch (sendError) {
+      logger.error('Error sending error message:', sendError);
+    }
+  } finally {
+    messageQueue.shift(); // Remove processed message
+    isProcessing = false;
+    if (session) {
+      session.isProcessing = false;
+    }
+    
+    // Process next message if queue not empty
+    if (messageQueue.length > 0) {
+      setTimeout(processQueue, 100);
+    }
   }
 }
 
@@ -285,10 +353,44 @@ const sessionManager = {
 
           try {
             // Create new chat instance with validated history
-            const chat = genAI.getGenerativeModel({ model: MODEL_NAME }).startChat({
-              history: history
+            const model = genAI.getGenerativeModel({ 
+              model: MODEL_NAME,
+              generationConfig: {
+                temperature: 0.9,
+                topK: 1,
+                topP: 1,
+                maxOutputTokens: 2048,
+              },
+              safetySettings: [
+                {
+                  category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+                  threshold: HarmBlockThreshold.BLOCK_NONE,
+                },
+                {
+                  category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+                  threshold: HarmBlockThreshold.BLOCK_NONE,
+                },
+                {
+                  category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+                  threshold: HarmBlockThreshold.BLOCK_NONE,
+                },
+                {
+                  category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+                  threshold: HarmBlockThreshold.BLOCK_NONE,
+                },
+              ],
             });
-            
+
+            const chat = model.startChat({
+              history: history,
+              generationConfig: {
+                temperature: 0.9,
+                topK: 1,
+                topP: 1,
+                maxOutputTokens: 2048,
+              },
+            });
+
             // Create session with proper Date object and history
             this.sessions.set(parseInt(chatId), {
               chat,
@@ -297,26 +399,62 @@ const sessionManager = {
               lastActivity: new Date(session.lastActivity || Date.now()),
               geminiHistory: history,
               pendingMessages: 0,
-              isProcessing: false // Add processing state
+              isProcessing: Boolean(session.isProcessing) // Add processing state
             });
             
             logger.info(`Loaded session for chat ${chatId} with ${history.length} messages`);
           } catch (error) {
             logger.error(`Error creating chat for session ${chatId}:`, error);
             // Create new session with default history if loading fails
-            const newChat = genAI.getGenerativeModel({ model: MODEL_NAME }).startChat({
-              history: defaultHistory
+            const newChat = genAI.getGenerativeModel({ 
+              model: MODEL_NAME,
+              generationConfig: {
+                temperature: 0.9,
+                topK: 1,
+                topP: 1,
+                maxOutputTokens: 2048,
+              },
+              safetySettings: [
+                {
+                  category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+                  threshold: HarmBlockThreshold.BLOCK_NONE,
+                },
+                {
+                  category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+                  threshold: HarmBlockThreshold.BLOCK_NONE,
+                },
+                {
+                  category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+                  threshold: HarmBlockThreshold.BLOCK_NONE,
+                },
+                {
+                  category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+                  threshold: HarmBlockThreshold.BLOCK_NONE,
+                },
+              ],
             });
-            
-            this.sessions.set(parseInt(chatId), {
-              chat: newChat,
-              verified: Boolean(session.verified),
-              paymentDiscussed: Boolean(session.paymentDiscussed),
-              lastActivity: new Date(session.lastActivity || Date.now()),
+
+            const chat = newChat.startChat({
+              history: defaultHistory,
+              generationConfig: {
+                temperature: 0.9,
+                topK: 1,
+                topP: 1,
+                maxOutputTokens: 2048,
+              },
+            });
+
+            const session = {
+              chat,
+              verified: false,
+              paymentDiscussed: false,
+              lastActivity: new Date(),
               geminiHistory: defaultHistory,
               pendingMessages: 0,
               isProcessing: false // Add processing state
-            });
+            };
+
+            this.sessions.set(chatId, session);
             
             logger.info(`Created new session for chat ${chatId} with default history`);
           }
@@ -395,66 +533,74 @@ const sessionManager = {
 
   // Create new session
   async createSession(chatId) {
-    // Initialize with system prompt
-    const initialHistory = [
-      {
-        role: "user",
-        parts: "Hi, what services do you offer?"
-      },
-      {
-        role: "model",
-        parts: SYSTEM_PROMPT
-      }
-    ];
-
-    const chat = genAI.getGenerativeModel({ model: MODEL_NAME }).startChat({
-      generationConfig: {
-        temperature: 0.9,
-        topK: 1,
-        topP: 1,
-        maxOutputTokens: 2048,
-      },
-      safetySettings: [
-        {
-          category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-          threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-          threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-          threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-          threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-      ],
-      history: initialHistory
-    });
-
-    const session = {
-      chat,
-      verified: false,
-      paymentDiscussed: false,
-      lastActivity: new Date(),
-      geminiHistory: initialHistory,
-      pendingMessages: 0,
-      isProcessing: false // Add processing state
-    };
-
-    this.sessions.set(chatId, session);
-    
     try {
+      const model = genAI.getGenerativeModel({ 
+        model: MODEL_NAME,
+        generationConfig: {
+          temperature: 0.9,
+          topK: 1,
+          topP: 1,
+          maxOutputTokens: 2048,
+        },
+        safetySettings: [
+          {
+            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold: HarmBlockThreshold.BLOCK_NONE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold: HarmBlockThreshold.BLOCK_NONE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+            threshold: HarmBlockThreshold.BLOCK_NONE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+            threshold: HarmBlockThreshold.BLOCK_NONE,
+          },
+        ],
+      });
+
+      const initialHistory = [
+        {
+          role: "user",
+          parts: "You are a membership assistant. Be professional and direct."
+        },
+        {
+          role: "model",
+          parts: SYSTEM_PROMPT
+        }
+      ];
+
+      const chat = model.startChat({
+        history: initialHistory,
+        generationConfig: {
+          temperature: 0.9,
+          topK: 1,
+          topP: 1,
+          maxOutputTokens: 2048,
+        },
+      });
+
+      const session = {
+        chat: chat,
+        verified: false,
+        paymentDiscussed: false,
+        lastActivity: new Date(),
+        geminiHistory: initialHistory,
+        pendingMessages: 0,
+        isProcessing: false
+      };
+
+      this.sessions.set(parseInt(chatId), session);
       await this.saveSessions();
-      logger.info(`Created new session for chat ${chatId}`);
+      
+      return session;
     } catch (error) {
-      logger.error(`Error saving new session for chat ${chatId}:`, error);
+      logger.error('Error creating session:', error);
+      throw error;
     }
-    
-    return session;
   },
 
   // Update conversation history
@@ -568,9 +714,35 @@ bot.on('photo', async (msg) => {
 
     // Vision API processing
     const genAI = new GoogleGenerativeAI(GEMINI_KEY);
-    const model = genAI.getGenerativeModel({ model: MODEL_NAME_VISION });
+    const model = genAI.getGenerativeModel({ 
+      model: MODEL_NAME_VISION,
+      generationConfig: {
+        temperature: 0.9,
+        topK: 1,
+        topP: 1,
+        maxOutputTokens: 2048,
+      },
+      safetySettings: [
+        {
+          category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+          threshold: HarmBlockThreshold.BLOCK_NONE,
+        },
+        {
+          category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+          threshold: HarmBlockThreshold.BLOCK_NONE,
+        },
+        {
+          category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+          threshold: HarmBlockThreshold.BLOCK_NONE,
+        },
+        {
+          category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+          threshold: HarmBlockThreshold.BLOCK_NONE,
+        },
+      ],
+    });
 
-    const prompt = `You are a payment verification assistant for a Bangladeshi service. Analyze this bKash/Nagad payment screenshot and verify:
+    const paymentPrompt = `You are a payment verification assistant for a Bangladeshi service. Analyze this bKash/Nagad payment screenshot and verify:
 
 1. Is this a Send Money transaction? (not merchant payment)
 2. Is the amount 100 taka or more?
@@ -588,7 +760,7 @@ Examples:
 
     try {
       const result = await model.generateContent([
-        prompt,
+        paymentPrompt,
         {
           inlineData: {
             mimeType: "image/jpeg",
@@ -659,7 +831,49 @@ async function processPaymentScreenshot(image) {
   const handler = async () => {
     try {
       logger.info('Starting payment screenshot analysis');
-      const model = genAI.getGenerativeModel({ model: MODEL_NAME_VISION });
+      const model = genAI.getGenerativeModel({ 
+        model: MODEL_NAME_VISION,
+        generationConfig: {
+          temperature: 0.9,
+          topK: 1,
+          topP: 1,
+          maxOutputTokens: 2048,
+        },
+        safetySettings: [
+          {
+            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold: HarmBlockThreshold.BLOCK_NONE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold: HarmBlockThreshold.BLOCK_NONE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+            threshold: HarmBlockThreshold.BLOCK_NONE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+            threshold: HarmBlockThreshold.BLOCK_NONE,
+          },
+        ],
+      });
+
+      const paymentPrompt = `You are a payment verification assistant for a Bangladeshi service. Analyze this bKash/Nagad payment screenshot and verify:
+
+1. Is this a Send Money transaction? (not merchant payment)
+2. Is the amount 100 taka or more?
+3. Are the transaction details clear and visible?
+4. Is the date/time visible?
+
+Important: Focus mainly on verifying if it's a Send Money transaction with 100+ taka. Don't strictly verify the phone number.
+
+Respond with ONLY "VALID" or "INVALID" followed by a brief reason.
+Examples:
+"VALID: Send Money transaction, 100tk paid, clear details"
+"INVALID: Merchant payment instead of Send Money"
+"INVALID: Amount less than 100tk"
+"INVALID: Unclear screenshot/details not visible"`;
       
       if (!image) {
         logger.error('No image data received');
@@ -674,9 +888,7 @@ async function processPaymentScreenshot(image) {
 
       logger.info('Sending to Gemini Vision API for analysis');
       const result = await model.generateContent([
-        {
-          text: "You are a payment verification assistant. Your task is to verify if this is a valid payment screenshot:\n1. Check if it's from bKash or Nagad\n2. Find the payment amount\n3. Verify if amount is 100 or more\n4. Are transaction details clear and visible?\n5. Is the date/time visible?\n\nIf it's a valid bKash/Nagad payment of 100+ taka, say 'VALID'. Otherwise, say 'INVALID' and explain why."
-        },
+        paymentPrompt,
         {
           inlineData: {
             mimeType: "image/jpeg",
@@ -708,20 +920,22 @@ async function downloadImage(fileId, chatId) {
     logger.info('Downloading and processing image');
     const file = await bot.getFile(fileId);
     const filePath = file.file_path;
-    const response = await fetch(`https://api.telegram.org/file/bot${BOT_TOKEN}/${filePath}`);
-    const arrayBuffer = await response.arrayBuffer();
+
+    // Download image
+    const imageResponse = await fetch(`https://api.telegram.org/file/bot${BOT_TOKEN}/${filePath}`);
+    const arrayBuffer = await imageResponse.arrayBuffer();
 
     // Process image with sharp to ensure JPEG format and reasonable size
     const processedBuffer = await sharp(Buffer.from(arrayBuffer))
       .jpeg({ quality: 80 })
-      .resize(800, 800, { fit: 'inside' }) // Resize if too large
+      .resize(800, 800, { fit: 'inside' })
       .toBuffer();
-    
-    logger.info('Image processed successfully');
-    return processedBuffer.toString('base64');
+
+    // Convert to base64
+    return Buffer.from(processedBuffer).toString('base64');
   } catch (error) {
-    logger.error('Error processing image:', error);
-    return null;
+    logger.error('Error downloading/processing image:', error);
+    throw error;
   }
 }
 
